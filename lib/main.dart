@@ -1,14 +1,11 @@
 import 'package:habit_tracker/persistance/hive_data_store.dart';
 import 'package:habit_tracker/ui/home/home_screen.dart';
-import 'package:habit_tracker/ui/models/app_theme_settings.dart';
 import 'package:habit_tracker/ui/models/front_or_back_side.dart';
 import 'package:habit_tracker/ui/models/task.dart';
-import 'package:habit_tracker/ui/theming/app_theme.dart';
 import 'package:habit_tracker/ui/theming/app_theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'constants/app_assets.dart';
-import 'constants/app_colors.dart';
 
 void main() async {
   final dataStore = HiveDataStore();

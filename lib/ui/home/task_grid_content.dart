@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:habit_tracker/ui/home/home_page_bottom_options.dart';
 import 'package:habit_tracker/ui/home/task_grid.dart';
 import 'package:habit_tracker/ui/models/app_theme_settings.dart';
@@ -44,62 +45,65 @@ class TaskGridPage extends StatelessWidget {
     return AppTheme(
       data: appThemeSettings.themeData,
       child: Builder(
-        builder: (context) => Scaffold(
-          backgroundColor: AppTheme.of(context).primary,
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRect(
-              child: Stack(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24.0,
-                            vertical: 8.0,
+        builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
+          value: AppTheme.of(context).overlayStyle,
+          child: Scaffold(
+            backgroundColor: AppTheme.of(context).primary,
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRect(
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24.0,
+                              vertical: 8.0,
+                            ),
+                            child: TaskGrid(tasks: tasks),
                           ),
-                          child: TaskGrid(tasks: tasks),
+                        ),
+                        HomePageBottomOptions(
+                          onFlip: onFlip,
+                          onEnterEditMode: enterEditMode,
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      left: 0,
+                      bottom: 10,
+                      width: SlidingPanel.leftPanelFixedWidth,
+                      child: SlidingPanelAnimator(
+                        key: leftAnimatorKey,
+                        direction: SlideDirection.leftToRight,
+                        child: ThemeSelectionClose(onClose: exitEditMode),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      bottom: 10,
+                      width:
+                          MediaQuery.of(context).size.width -
+                          SlidingPanel.leftPanelFixedWidth,
+                      child: SlidingPanelAnimator(
+                        key: rightAnimatorKey,
+                        direction: SlideDirection.rightToLeft,
+                        child: ThemeSelectionList(
+                          currentThemeSettings: appThemeSettings,
+                          availableWidth:
+                              MediaQuery.of(context).size.width -
+                              SlidingPanel.leftPanelFixedWidth -
+                              SlidingPanel.paddingWidth,
+                          onColorIndexSelected: onThemeColorIndexSelected,
+                          onVariantIndexSelected: onThemeVariantIndexSelected,
                         ),
                       ),
-                      HomePageBottomOptions(
-                        onFlip: onFlip,
-                        onEnterEditMode: enterEditMode,
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    left: 0,
-                    bottom: 10,
-                    width: SlidingPanel.leftPanelFixedWidth,
-                    child: SlidingPanelAnimator(
-                      key: leftAnimatorKey,
-                      direction: SlideDirection.leftToRight,
-                      child: ThemeSelectionClose(onClose: exitEditMode),
                     ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 10,
-                    width:
-                        MediaQuery.of(context).size.width -
-                        SlidingPanel.leftPanelFixedWidth,
-                    child: SlidingPanelAnimator(
-                      key: rightAnimatorKey,
-                      direction: SlideDirection.rightToLeft,
-                      child: ThemeSelectionList(
-                        currentThemeSettings: appThemeSettings,
-                        availableWidth:
-                            MediaQuery.of(context).size.width -
-                            SlidingPanel.leftPanelFixedWidth -
-                            SlidingPanel.paddingWidth,
-                        onColorIndexSelected: onThemeColorIndexSelected,
-                        onVariantIndexSelected: onThemeVariantIndexSelected,
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
