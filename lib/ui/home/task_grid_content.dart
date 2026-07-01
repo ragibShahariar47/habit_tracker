@@ -6,6 +6,7 @@ import 'package:habit_tracker/ui/sliding_panel/sliding_panel.dart';
 import 'package:habit_tracker/ui/sliding_panel/sliding_panel_animator.dart';
 import 'package:habit_tracker/ui/sliding_panel/theme_selection_close.dart';
 import 'package:habit_tracker/ui/sliding_panel/theme_selection_list.dart';
+import 'package:habit_tracker/ui/theming/animated_app_theme.dart';
 import 'package:habit_tracker/ui/theming/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../models/task.dart';
@@ -42,7 +43,8 @@ class TaskGridPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppTheme(
+    return AnimatedAppTheme(
+      duration: Duration(milliseconds: 300),
       data: appThemeSettings.themeData,
       child: Builder(
         builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
